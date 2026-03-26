@@ -18,12 +18,12 @@ Each app has its own roadmap and README:
 
 | App | Roadmap | README |
 |---|---|---|
-| `claude-search/` (Electron) | `.planning/ROADMAP.md` | `README.md` |
-| `vscode-claude-code-manager/` | `.planning/ROADMAP.md` | `README.md` |
-| `intellij-claude-code-manager/` | `.planning/ROADMAP.md` | `README.md` |
+| `threadbase-electron/` (Electron) | `.planning/ROADMAP.md` | `README.md` |
+| `threadbase-vscode/` | `.planning/ROADMAP.md` | `README.md` |
+| `threadbase-intellij/` | `.planning/ROADMAP.md` | `README.md` |
 | `threadbase-cli/` | `.planning/ROADMAP.md` | `README.md` |
 
-The landing page update plan is at `threadbase-landing-codex/PLAN.md`.
+The landing page update plan is at `threadbase-landing-page-v2/PLAN.md`.
 
 ---
 
@@ -50,10 +50,10 @@ All implementation follows the **GSD (Get Stuff Done)** workflow. Each app has a
 When starting work on a specific app, open a fresh Claude Code session inside that app's directory. Each app is its own git repository.
 
 ```bash
-cd claude-search/                    # Electron desktop app
-cd vscode-claude-code-manager/       # VS Code extension
-cd intellij-claude-code-manager/     # IntelliJ plugin
-cd threadbase-cli/                   # Go CLI
+cd threadbase-electron/   # Electron desktop app
+cd threadbase-vscode/     # VS Code extension
+cd threadbase-intellij/   # IntelliJ plugin
+cd threadbase-cli/        # Go CLI
 ```
 
 ### GSD Settings (current)
@@ -117,15 +117,15 @@ Change settings any time with `/gsd:settings`.
 
 ### Recommended Tool Combinations by App
 
-**Electron (`claude-search`)**
+**Electron (`threadbase-electron`)**
 - serena for code analysis + context7 for electron/react/flexsearch docs
 - `dispatching-parallel-agents` when phases are independent
 
-**VS Code (`vscode-claude-code-manager`)**
+**VS Code (`threadbase-vscode`)**
 - serena for code analysis + context7 for VS Code API / esbuild docs
 - `react-typescript` for webview component work
 
-**IntelliJ (`intellij-claude-code-manager`)**
+**IntelliJ (`threadbase-intellij`)**
 - `gradle-intellij-specialist` for any build.gradle.kts changes
 - jetbrains MCP to inspect plugin state in live IDE
 - serena for Kotlin code analysis + context7 for IntelliJ Platform API docs
@@ -135,7 +135,7 @@ Change settings any time with `/gsd:settings`.
 - context7 for Go stdlib / Cobra docs
 - serena for Go code analysis
 
-**Landing Page (`threadbase-landing-codex`)**
+**Landing Page (`threadbase-landing-page-v2`)**
 - Vercel MCP for deploy and log inspection
 - context7 for Next.js 15 / Tailwind 4 / Framer Motion docs
 - `web-design-guidelines` for UI review
@@ -171,7 +171,7 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 | `test` | Tests only |
 | `chore` | Build scripts, dependencies, config |
 
-**Scope examples:** `claude-search`, `vscode`, `intellij`, `cli`, `landing`, `core`
+**Scope examples:** `electron`, `vscode`, `intellij`, `cli`, `landing`, `core`
 
 **Examples:**
 
@@ -203,7 +203,7 @@ Every time a feature is approved and pushed across any of the apps, the landing 
 
 ### What to update
 
-Open `threadbase-landing-codex/lib/content.ts` and update the relevant section:
+Open `threadbase-landing-page-v2/lib/content.ts` and update the relevant section:
 
 | New capability | Update target in `content.ts` |
 |---|---|
@@ -233,7 +233,7 @@ feat(landing): update content to reflect <feature> in <app>
 
 ### Reference: Landing Page Update Plan
 
-The full plan for the next round of landing page updates is in `threadbase-landing-codex/PLAN.md`. It covers:
+The full plan for the next round of landing page updates is in `threadbase-landing-page-v2/PLAN.md`. It covers:
 - CLI as 4th platform
 - Features grid expansion (6 → 8)
 - Multi-assistant roadmap teaser section
