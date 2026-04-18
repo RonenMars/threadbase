@@ -11,7 +11,14 @@ A cross-platform suite for browsing, searching, and resuming your Claude Code co
 | Electron desktop app | macOS / Windows / Linux | [threadbase-electron](https://github.com/RonenMars/threadbase-electron) |
 | VS Code extension | VS Code | [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) |
 | IntelliJ plugin | JetBrains IDEs | [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) |
-| Go CLI (`cch`) | Terminal | [threadbase-cli](https://github.com/RonenMars/threadbase-cli) |
+| Go CLI (`cch`) | Terminal | [threadbase-cli](https://github.com/RonenMars/threadbase-cli) *(deprecated — replaced by streamer)* |
+
+### Shared Packages
+
+| Package | Description | Status |
+|---|---|---|
+| [`@threadbase/scanner`](./scanner/) | Scan, parse, search, and filter Claude Code conversation history | v0.1.0 |
+| [`@threadbase/streamer`](./streamer/) | PTY session management, WebSocket streaming, REST API server | WIP |
 
 ### Landing Page
 
@@ -178,7 +185,9 @@ See [multi-assistant-support.md](./multi-assistant-support.md) for the full prov
 | [threadbase-electron](https://github.com/RonenMars/threadbase-electron) | Electron desktop app |
 | [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) | VS Code extension |
 | [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) | IntelliJ plugin |
-| [threadbase-cli](https://github.com/RonenMars/threadbase-cli) | Go CLI (`cch`) |
+| [threadbase-cli](https://github.com/RonenMars/threadbase-cli) | Go CLI (`cch`) — *deprecated, replaced by `@threadbase/streamer`* |
+| [threadbase-scanner](./scanner/) | `@threadbase/scanner` — scan, parse, search, filter |
+| [threadbase-streamer](./streamer/) | `@threadbase/streamer` — PTY management, streaming, REST server (WIP) |
 | [threadbase-landing-page-v2](https://github.com/RonenMars/threadbase-landing-page-v2) | Next.js 15 marketing landing page |
 
 ## Docs
