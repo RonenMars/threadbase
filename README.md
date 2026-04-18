@@ -19,6 +19,8 @@ A cross-platform suite for browsing, searching, and resuming your Claude Code co
 |---|---|---|
 | [`@threadbase/scanner`](./scanner/) | Scan, parse, search, and filter Claude Code conversation history | v0.1.0 |
 | [`@threadbase/streamer`](./streamer/) | PTY session management, WebSocket streaming, REST API server | WIP |
+| [`@threadbase/core`](./core/) | Multi-assistant provider abstraction and typed tool results | v0.1.0 |
+| [`@threadbase/ui`](./ui/) | Shared React rendering components (tool cards, message display) | v0.1.0 |
 
 ### Landing Page
 
