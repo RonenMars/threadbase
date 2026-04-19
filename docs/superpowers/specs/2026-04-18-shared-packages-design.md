@@ -108,16 +108,15 @@ threadbase-ui/
         WriteFileCard.tsx
         ReadFileCard.tsx
         GlobResultCard.tsx
-        GenericToolCard.tsx
-        TaskToolCard.tsx
+        GenericToolCard.tsx       <- also exports TaskAgentCard, TaskCreateCard, TaskUpdateCard
       message/
         MessageContent.tsx
         MessageNavigation.tsx
         ToolResultCard.tsx        <- dispatcher that routes to the correct tool card
         ToolInvocationBadge.tsx
+      DiffViewer.tsx              <- used by EditDiffCard
       util/
         ErrorBoundary.tsx
-        CollapsibleJson.tsx
     index.ts                      <- public API, named exports for all components
   package.json
   tsconfig.json
