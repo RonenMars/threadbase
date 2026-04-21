@@ -13,3 +13,15 @@
 [submodule "streamer"]
 	path = streamer
 	url = git@github.com:RonenMars/threadbase-streamer.git
+[submodule "cli"]
+	path = cli
+	url = git@github.com:RonenMars/threadbase-cli.git
+[submodule "electron"]
+	path = electron
+	url = git@github.com:RonenMars/threadbase-electron.git
+[submodule "intellij"]
+	path = intellij
+	url = git@github.com:RonenMars/threadbase-intellij.git
+[submodule "vscode"]
+	path = vscode
+	url = git@github.com:RonenMars/threadbase-vscode.git
