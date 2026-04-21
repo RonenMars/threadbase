@@ -79,6 +79,27 @@ All platforms share the same core: JSONL scanning, FlexSearch / Lucene full-text
 
 ## Quick Start
 
+### Cloning with Submodules
+
+This repo uses Git submodules for all apps and shared packages. To clone everything in one step:
+
+```bash
+git clone --recurse-submodules git@github.com:RonenMars/threadbase.git
+```
+
+If you've already cloned without submodules, fetch them with:
+
+```bash
+git submodule update --init --recursive
+```
+
+To pull the latest changes across all submodules:
+
+```bash
+git pull --recurse-submodules
+git submodule update --remote --merge
+```
+
 ### Desktop App
 
 ```bash
