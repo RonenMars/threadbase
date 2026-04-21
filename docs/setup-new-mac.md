@@ -90,7 +90,7 @@ Run a quick smoke test for each:
 
 ## Step 5: Confirm
 
-After setup, run `git submodule status` from the root and show me the output so I can verify all submodules are at the expected commits.
+After setup, run `git submodule status` from the root and show me the output.
 
 ## Notes
 
