@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx biome:*)",
+      "Bash(npx vitest:*)",
+      "Skill(update-config)",
+      "Bash(bash -c 'cd /Users/ronen/Desktop/dev/personal/threadbase/scanner && npm run lint 2>&1 && npm test 2>&1')",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(rm /Users/ronen/Desktop/dev/personal/threadbase/.git/index.lock)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase add streamer/)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase diff --cached --stat)"
+    ]
+  }
+}

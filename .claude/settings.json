@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase check-ignore -v docs .claude docs/ .claude/)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase ls-files docs .claude)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase ls-files .claude)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase show 630c25c --stat)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase check-ignore -v .claude/settings.json .claude/settings.local.json)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase add .gitignore .claude/settings.json .claude/settings.local.json)",
+      "Bash(git -C /Users/ronen/Desktop/dev/personal/threadbase diff --staged)"
+    ],
+    "additionalDirectories": [
+      "/Users/ronen/Desktop/dev/personal/threadbase/.git"
+    ]
+  }
+}
