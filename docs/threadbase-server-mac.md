@@ -101,7 +101,7 @@ Should return a JSON array of sessions (or `[]` if `~/.claude/` has no conversat
 
 We use Cloudflare Tunnels to expose the streamer to the internet (for mobile app access outside LAN). This follows the same pattern as the PC remote setup on rbv1000.win.
 
-### 6a. Authenticate cloudflared
+### 7a. Authenticate cloudflared
 
 ```bash
 cloudflared tunnel login
@@ -109,7 +109,7 @@ cloudflared tunnel login
 
 This opens a browser to authorize. Select the Cloudflare zone you want to use (e.g. `rbv1000.win`).
 
-### 6b. Create the tunnel
+### 7b. Create the tunnel
 
 ```bash
 cloudflared tunnel create threadbase-mac
@@ -117,7 +117,7 @@ cloudflared tunnel create threadbase-mac
 
 Save the tunnel UUID from the output. Credentials are stored at `~/.cloudflared/<tunnel-uuid>.json`.
 
-### 6c. Add DNS route
+### 7c. Add DNS route
 
 ```bash
 cloudflared tunnel route dns <tunnel-uuid> threadbase-mac.rbv1000.win
@@ -125,7 +125,7 @@ cloudflared tunnel route dns <tunnel-uuid> threadbase-mac.rbv1000.win
 
 Replace `rbv1000.win` with your actual Cloudflare zone if different.
 
-### 6d. Create tunnel config
+### 7d. Create tunnel config
 
 Write `~/.cloudflared/config.yml`:
 
@@ -141,7 +141,7 @@ ingress:
 
 Replace `<tunnel-uuid>` and `<username>` with actual values.
 
-### 6e. Test the tunnel
+### 7e. Test the tunnel
 
 ```bash
 cloudflared tunnel run
@@ -152,7 +152,7 @@ From another device, verify:
 curl https://threadbase-mac.rbv1000.win/sessions -H "Authorization: Bearer <api-key>"
 ```
 
-### 6f. Run as a launchd service (auto-start on boot)
+### 7f. Run as a launchd service (auto-start on boot)
 
 Create `~/Library/LaunchAgents/com.cloudflare.threadbase-tunnel.plist`:
 
