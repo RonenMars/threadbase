@@ -23,9 +23,23 @@ Check these are installed. Install anything missing via Homebrew (install Homebr
 - **Node.js >= 18** (prefer via `fnm` or `nvm` — `node --version`)
 - **npm** (comes with Node)
 - **cloudflared** (`brew install cloudflare/cloudflare/cloudflared`)
+- **Xcode command line tools** (`xcode-select -p` — if missing: `xcode-select --install`; needed for `node-pty` native compilation)
 
 ## Step 2: Clone the monorepo
 
+First check if it's already cloned:
+
+```bash
+ls ~/Desktop/dev/personal/threadbase/.git 2>/dev/null && echo "ALREADY CLONED" || echo "NOT FOUND"
+```
+
+**If ALREADY CLONED:** `cd ~/Desktop/dev/personal/threadbase` and pull latest:
+```bash
+cd ~/Desktop/dev/personal/threadbase
+git pull --recurse-submodules
+```
+
+**If NOT FOUND:** clone fresh:
 ```bash
 cd ~/Desktop/dev/personal
 git clone --recurse-submodules git@github.com:RonenMars/threadbase.git
@@ -75,6 +89,28 @@ node streamer/dist/cli.js serve --help
 
 ## Step 5: Start the streamer
 
+First check if it's already running or has an existing config:
+
+```bash
+echo "--- existing config ---"
+cat ~/.threadbase/server.yaml 2>/dev/null || echo "No config yet"
+echo "--- running process ---"
+pgrep -f "threadbase-streamer\|dist/cli.js serve" >/dev/null && echo "ALREADY RUNNING" || echo "NOT RUNNING"
+echo "--- launchd service ---"
+launchctl list 2>/dev/null | grep threadbase && echo "LAUNCHD SERVICE EXISTS" || echo "No launchd service"
+```
+
+**If ALREADY RUNNING:** The streamer is already active. Show me its config (`cat ~/.threadbase/server.yaml`) and skip to Step 6 to verify.
+
+**If NOT RUNNING but config exists:** An API key was already generated. Start the streamer — it will reuse the existing key:
+
+```bash
+cd streamer
+node dist/cli.js serve --port 3456
+```
+
+**If neither exists (fresh setup):**
+
 ```bash
 cd streamer
 node dist/cli.js serve --port 3456
@@ -101,7 +137,45 @@ Should return a JSON array of sessions (or `[]` if `~/.claude/` has no conversat
 
 We use Cloudflare Tunnels to expose the streamer to the internet (for mobile app access outside LAN). This follows the same pattern as the PC remote setup on rbv1000.win.
 
+**Before creating anything, check what already exists on this Mac:**
+
+```bash
+echo "--- cloudflared auth ---"
+ls ~/.cloudflared/cert.pem 2>/dev/null && echo "AUTHENTICATED" || echo "NOT AUTHENTICATED"
+echo "--- existing tunnels ---"
+cloudflared tunnel list 2>/dev/null || echo "Cannot list (not authenticated)"
+echo "--- existing config ---"
+cat ~/.cloudflared/config.yml 2>/dev/null || echo "No config.yml"
+echo "--- existing launchd ---"
+launchctl list 2>/dev/null | grep -i cloudflare && echo "CLOUDFLARE LAUNCHD EXISTS" || echo "No cloudflare launchd service"
+```
+
+Show me the output of the above and follow the appropriate path:
+
+---
+
+### Path A: Existing tunnel found
+
+If `cloudflared tunnel list` shows a tunnel and `~/.cloudflared/config.yml` exists:
+
+1. Show me the full output of `cloudflared tunnel list` and `cat ~/.cloudflared/config.yml`
+2. Ask me: "Found existing tunnel(s) and config. The config routes to [hostname(s)]. Is this the correct tunnel to use for threadbase, or should I create a new one?"
+3. **If I say use it:** check that the config has an ingress entry routing to `http://localhost:3456`. If it routes to a different port, ask me which port to use. If the ingress is correct, skip to 7e to test.
+4. **If I say create new:** proceed to 7b below.
+
+### Path B: Authenticated but no tunnel
+
+If `cert.pem` exists but `cloudflared tunnel list` is empty — skip 7a, go to 7b.
+
+### Path C: Fresh setup (not authenticated)
+
+Follow all steps below in order.
+
+---
+
 ### 7a. Authenticate cloudflared
+
+Skip if already authenticated (`~/.cloudflared/cert.pem` exists).
 
 ```bash
 cloudflared tunnel login
@@ -127,7 +201,15 @@ Replace `rbv1000.win` with your actual Cloudflare zone if different.
 
 ### 7d. Create tunnel config
 
-Write `~/.cloudflared/config.yml`:
+Check if `~/.cloudflared/config.yml` already exists:
+
+```bash
+cat ~/.cloudflared/config.yml 2>/dev/null || echo "NO EXISTING CONFIG"
+```
+
+**If a config exists** with other ingress rules (other services on this Mac): add the threadbase entry to the existing ingress list rather than overwriting it. Show me the current config and ask: "There's an existing config with [N] ingress rules. Should I add the threadbase entry to it, or replace it entirely?"
+
+**If no config exists**, write `~/.cloudflared/config.yml`:
 
 ```yaml
 tunnel: <tunnel-uuid>
@@ -154,7 +236,20 @@ curl https://threadbase-mac.rbv1000.win/sessions -H "Authorization: Bearer <api-
 
 ### 7f. Run as a launchd service (auto-start on boot)
 
-Create `~/Library/LaunchAgents/com.cloudflare.threadbase-tunnel.plist`:
+Check if a cloudflare launchd service already exists:
+
+```bash
+ls ~/Library/LaunchAgents/com.cloudflare.* 2>/dev/null && echo "PLIST EXISTS" || echo "NO PLIST"
+launchctl list 2>/dev/null | grep cloudflare
+```
+
+**If a cloudflare plist already exists and is loaded:** the tunnel is already running as a service. Verify it uses the correct config:
+```bash
+cat ~/Library/LaunchAgents/com.cloudflare.*.plist
+```
+Show me the output. If it's already pointing at the right tunnel, skip creating a new plist.
+
+**If no plist exists**, create `~/Library/LaunchAgents/com.cloudflare.threadbase-tunnel.plist`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -186,7 +281,16 @@ Load it:
 launchctl load ~/Library/LaunchAgents/com.cloudflare.threadbase-tunnel.plist
 ```
 
-Also create a launchd service for the streamer itself — `~/Library/LaunchAgents/com.threadbase.streamer.plist`:
+Also check if a streamer launchd service already exists:
+
+```bash
+ls ~/Library/LaunchAgents/com.threadbase.* 2>/dev/null && echo "PLIST EXISTS" || echo "NO PLIST"
+launchctl list 2>/dev/null | grep threadbase
+```
+
+**If it already exists and is loaded**, show me its contents. If it points to the correct working directory and node path, skip creating a new one.
+
+**If no plist exists**, create `~/Library/LaunchAgents/com.threadbase.streamer.plist`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
