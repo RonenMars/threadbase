@@ -4,3 +4,12 @@
 [submodule "ui"]
 	path = ui
 	url = git@github.com:RonenMars/threadbase-ui.git
+[submodule "scanner"]
+	path = scanner
+	url = git@github.com:RonenMars/threadbase-scanner.git
+[submodule "mobile"]
+	path = mobile
+	url = git@github.com:RonenMars/threadbase-mobile.git
+[submodule "streamer"]
+	path = streamer
+	url = git@github.com:RonenMars/threadbase-streamer.git
