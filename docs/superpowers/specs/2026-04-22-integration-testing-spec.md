@@ -42,7 +42,7 @@ Each fixture must contain:
 
 | File | Describes | Validated against |
 |---|---|---|
-| `shared.schema.json` | Fields present in every consumer's response: `id`, `projectPath`, `messageCount` | Both mobile and desktop response objects |
+| `shared.schema.json` | Fields present in every consumer's list response: `id`, `projectPath`, `messageCount`, `account` + envelope fields `hasMore`, `offset`, `total` | Both mobile and desktop response objects |
 | `mobile.schema.json` | Mobile-expected shapes for all endpoints (see below) | Streamer's adapted responses |
 | `desktop.schema.json` | Electron-expected shapes (Transport interface return types) | Streamer's adapted responses |
 
@@ -52,19 +52,27 @@ JSON Schema Draft 2020-12, validated with `ajv` (added as a devDependency to str
 
 ### Mobile schemas (in `mobile.schema.json`)
 
-Derived from `mobile/types/api.ts`. The schema file contains named definitions for each endpoint response:
+Derived from `mobile/types/api.ts`. The schema file contains named definitions for each endpoint response.
 
 **`GET /api/conversations`** — `ConversationPage`:
+
+Streamer returns a `ConversationPage` object. Mobile's `adaptPage()` passes it through directly when it's already camelCase (not a raw snake_case array).
+
 ```json
 {
   "conversations": [{
     "id": "string",
     "title": "string",
     "sessionName": "string (optional)",
+    "filePath": "string (optional)",
     "projectPath": "string",
     "branch": "string (optional)",
+    "account": "string (optional)",
+    "preview": "string (optional)",
     "messageCount": "integer",
-    "lastActivity": "string (ISO datetime)"
+    "lastActivity": "string (ISO datetime)",
+    "firstMessage": "{ text: string, timestamp: string } (optional)",
+    "lastMessage": "{ text: string, timestamp: string } (optional)"
   }],
   "hasMore": "boolean",
   "offset": "integer",
@@ -72,12 +80,17 @@ Derived from `mobile/types/api.ts`. The schema file contains named definitions f
 }
 ```
 
+> **Known gap:** Mobile's `Conversation` type also declares `model?: string` and `totalTokens?: number`. Scanner has `model` on `ConversationMeta` but streamer's `handleListConversations` does not pass it through. `totalTokens` is not available in scanner. These are optional fields so mobile won't break, but they'll always be undefined.
+
 **`GET /api/conversations/:id`** — `{ meta, messages }` wrapper:
+
+Streamer wraps scanner's `Conversation` into the old Go-compatible `{ meta, messages }` shape. Mobile's `adaptDetail()` reads from this.
+
 ```json
 {
   "meta": {
     "id": "string",
-    "profile_id": "string (optional)",
+    "profile_id": "string (optional, maps to account)",
     "project_name": "string",
     "project_path": "string",
     "file_path": "string",
@@ -88,10 +101,15 @@ Derived from `mobile/types/api.ts`. The schema file contains named definitions f
     "role": "string (user|assistant)",
     "timestamp": "string",
     "text": "string",
-    "tool_calls": "array",
+    "tool_calls": "string[] (tool names used in message)",
     "content": [{
       "type": "string (tool_use|tool_result)",
-      "...": "varies by type"
+      "id": "string (tool_use only)",
+      "name": "string (tool_use only)",
+      "input": "object (tool_use only)",
+      "tool_use_id": "string (tool_result only)",
+      "content": "string (tool_result only, JSON-stringified)",
+      "is_error": "boolean (tool_result only)"
     }]
   }]
 }
@@ -107,7 +125,7 @@ Derived from `mobile/types/api.ts`. The schema file contains named definitions f
 }
 ```
 
-**`GET /api/search`** — same shape as `GET /api/conversations` (wrapped in `ConversationPage`).
+**`GET /api/search`** — same wrapper shape as `GET /api/conversations` (`ConversationPage`).
 
 **`GET /api/sessions`** — array of `Session`:
 ```json
@@ -116,19 +134,26 @@ Derived from `mobile/types/api.ts`. The schema file contains named definitions f
   "status": "string (running|waiting_input|completed|failed|idle)",
   "projectPath": "string",
   "projectName": "string",
-  "branch": "string (optional)",
+  "branch": "string (optional, may be empty string)",
   "lastOutput": "string",
-  "elapsedMs": "number",
+  "elapsedMs": "integer",
+  "promptCount": "integer",
   "startedAt": "string (ISO datetime)",
-  "source": "string (managed|discovered, optional)"
+  "completedAt": "string|null (ISO datetime, optional)",
+  "conversationId": "string (optional, may be empty string)",
+  "source": "string (managed|discovered, optional)",
+  "pid": "integer (discovered sessions only)"
 }]
 ```
 
 ### Desktop schemas (in `desktop.schema.json`)
 
-Derived from `electron/src/shared/types.ts`. The Transport interface returns:
+Derived from `electron/src/shared/types.ts`. Documents what electron's `WebSocketTransport` expects. Currently electron defaults to `ElectronTransport` (IPC), so these mismatches don't break in production — but the contract tests will flag them so they're fixed before electron migrates to streamer.
 
-**`listConversations` / `search`** — `SearchResult[]`:
+**`listConversations` / `search`** — electron expects `SearchResult[]` (flat array):
+
+> **Known contract mismatch:** Electron's `WebSocketTransport.listConversations()` calls `this.get<SearchResult[]>('/api/conversations')` expecting a flat array. Streamer returns `ConversationPage` (wrapped object). This will need an adaptation layer in either streamer or electron before electron can use WebSocketTransport against the streamer.
+
 ```json
 [{
   "id": "string",
@@ -137,15 +162,29 @@ Derived from `electron/src/shared/types.ts`. The Transport interface returns:
   "sessionId": "string",
   "sessionName": "string",
   "preview": "string",
-  "timestamp": "string",
+  "timestamp": "string (ISO datetime)",
   "messageCount": "integer",
   "score": "number",
   "lastMessageSender": "string (user|assistant)",
-  "account": "string"
+  "account": "string",
+  "provider": "string (optional)"
 }]
 ```
 
+Field mapping gaps (streamer returns → electron expects):
+
+| Streamer field | Electron field | Status |
+|---|---|---|
+| `title` | `projectName` | **Name mismatch** |
+| `lastActivity` | `timestamp` | **Name mismatch** |
+| (not returned) | `sessionId` | **Missing** |
+| (not returned) | `score` | **Missing** |
+| (not returned) | `lastMessageSender` | **Missing** |
+
 **`getConversation`** — `Conversation`:
+
+> **Known contract mismatch:** Electron expects a flat `Conversation` object with `messages`, `fullText`, `sessionId`, `sessionName`. Streamer returns `{ meta, messages }` wrapper in Go-compatible format. This needs an adaptation layer or a separate desktop-specific endpoint.
+
 ```json
 {
   "id": "string",
@@ -154,9 +193,17 @@ Derived from `electron/src/shared/types.ts`. The Transport interface returns:
   "projectName": "string",
   "sessionId": "string",
   "sessionName": "string",
-  "messages": [{ "type": "string", "content": "string", "timestamp": "string" }],
+  "messages": [{
+    "type": "string (user|assistant|system)",
+    "content": "string",
+    "timestamp": "string",
+    "uuid": "string (optional)",
+    "metadata": "MessageMetadata (optional)",
+    "lineNumber": "integer (optional)",
+    "isToolResult": "boolean (optional)"
+  }],
   "fullText": "string",
-  "timestamp": "string",
+  "timestamp": "string (ISO datetime)",
   "messageCount": "integer",
   "account": "string"
 }
@@ -169,13 +216,28 @@ Derived from `electron/src/shared/types.ts`. The Transport interface returns:
   "instanceId": "string",
   "projectPath": "string",
   "projectName": "string",
-  "status": "string",
+  "status": "string (running|waiting_input|completed|failed|idle)",
+  "branch": "string (optional)",
+  "machineName": "string (optional)",
   "lastOutput": "string",
   "elapsedMs": "number",
   "promptCount": "number",
-  "startedAt": "string (ISO datetime)"
+  "startedAt": "string (ISO datetime)",
+  "completedAt": "string (optional)"
 }]
 ```
+
+### Contract mismatch summary
+
+These are pre-existing gaps between what streamer serves and what each consumer expects. The contract tests will document them as known failures, to be resolved as part of each app's migration to the streamer:
+
+| Gap | Severity | Resolution |
+|---|---|---|
+| `model` not in list response | Low — optional field | Add to streamer's `handleListConversations` |
+| Electron expects flat array from list | **High** — would break at runtime | Add adaptation in streamer or electron's `WebSocketTransport` |
+| Electron expects flat `Conversation` from detail | **High** — would break at runtime | Add desktop-format detail endpoint or adapt in electron |
+| Electron expects `projectName`/`timestamp`/`sessionId`/`score`/`lastMessageSender` | **High** — field name mismatches | Map fields in streamer or rename in electron types |
+| `totalTokens` not available | Low — never populated | No action needed |
 
 ---
 
@@ -334,9 +396,9 @@ No new production dependencies.
 
 ## 8. Production Code Changes
 
-Only one change to production code:
+**`streamer/src/server.ts`** — Two changes:
 
-**`streamer/src/server.ts`** — Make the scan directory configurable:
+**8a. Make the scan directory configurable:**
 
 ```typescript
 // In StreamerServer constructor config
@@ -347,6 +409,10 @@ interface ServerConfig {
 ```
 
 The `handleListConversations`, `handleGetConversation`, and `handleSearch` methods pass this directory to the `scan()` / `getConversation()` calls.
+
+**8b. Add `model` to list response** (minor, addresses known gap):
+
+In `handleListConversations`, add `model: c.model ?? undefined` to the adapted object. Scanner already provides this field on `ConversationMeta`.
 
 ---
 
