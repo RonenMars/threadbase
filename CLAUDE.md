@@ -14,7 +14,6 @@ This is a **submodule-based monorepo**. Each directory is its own Git repo:
 - `electron/` — Electron desktop app (macOS/Windows/Linux)
 - `vscode/` — VS Code extension
 - `intellij/` — IntelliJ/JetBrains plugin (Kotlin)
-- `cli/` — Go CLI (deprecated, replaced by streamer)
 - `mobile/` — Mobile app
 
 ### Shared Packages
@@ -22,6 +21,9 @@ This is a **submodule-based monorepo**. Each directory is its own Git repo:
 - `streamer/` — `@threadbase/streamer` — PTY session management, WebSocket streaming, REST API
 - `core/` — `@threadbase/core` — multi-assistant provider abstraction, typed tool results
 - `ui/` — `@threadbase/ui` — shared React rendering components
+
+### Deprecated
+- `deprecated/cli/` — Go CLI (replaced by `streamer/`)
 
 ### Other
 - `wiki/` — Project wiki
