@@ -13,9 +13,6 @@
 [submodule "streamer"]
 	path = streamer
 	url = git@github.com:RonenMars/threadbase-streamer.git
-[submodule "cli"]
-	path = cli
-	url = git@github.com:RonenMars/threadbase-cli.git
 [submodule "electron"]
 	path = electron
 	url = git@github.com:RonenMars/threadbase-electron.git
@@ -28,3 +25,6 @@
 [submodule "landing-page"]
 	path = landing-page
 	url = git@github.com:RonenMars/threadbase-landing-codex.git
+[submodule "deprecated/cli"]
+	path = deprecated/cli
+	url = git@github.com:RonenMars/threadbase-cli.git
