@@ -1,6 +1,6 @@
 # Threadbase
 
-A cross-platform suite for browsing, searching, and resuming your Claude Code conversation history. Runs as a native desktop app, a VS Code extension, an IntelliJ plugin, and a Go CLI tool — all reading the same local JSONL files that Claude Code writes to `~/.claude/`.
+A cross-platform suite for browsing, searching, and resuming your Claude Code conversation history. Runs as a native desktop app, a VS Code extension, an IntelliJ plugin, a mobile app, and a Go CLI tool — all reading the same local JSONL files that Claude Code writes to `~/.claude/`.
 
 ---
 
@@ -11,6 +11,7 @@ A cross-platform suite for browsing, searching, and resuming your Claude Code co
 | Electron desktop app | macOS / Windows / Linux | [threadbase-electron](https://github.com/RonenMars/threadbase-electron) |
 | VS Code extension | VS Code | [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) |
 | IntelliJ plugin | JetBrains IDEs | [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) |
+| Mobile app | iOS / Android | [threadbase-mobile](https://github.com/RonenMars/threadbase-mobile) |
 | Go CLI (`cch`) | Terminal | [threadbase-cli](https://github.com/RonenMars/threadbase-cli) *(deprecated — replaced by streamer)* |
 
 ### Shared Packages
@@ -66,6 +67,13 @@ All platforms share the same core: JSONL scanning, FlexSearch / Lucene full-text
 - Git branch badges on conversation items
 - Message-level navigation with keyboard shortcuts
 - Token and model metadata per message
+
+### Mobile App (threadbase-mobile)
+
+- Browse, search, and resume Claude Code conversations on the go
+- Full-text search across all conversations from iOS and Android
+- Conversation viewer with tool result cards
+- Syncs with the same local JSONL history via the streamer API
 
 ### CLI (`cch`)
 
@@ -208,6 +216,7 @@ See [multi-assistant-support.md](./multi-assistant-support.md) for the full prov
 | [threadbase-electron](https://github.com/RonenMars/threadbase-electron) | Electron desktop app |
 | [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) | VS Code extension |
 | [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) | IntelliJ plugin |
+| [threadbase-mobile](https://github.com/RonenMars/threadbase-mobile) | Mobile app — browse, search, and resume conversations on iOS and Android |
 | [threadbase-cli](https://github.com/RonenMars/threadbase-cli) | Go CLI (`cch`) — *deprecated, replaced by `@threadbase/streamer`* |
 | [threadbase-scanner](./scanner/) | `@threadbase/scanner` — scan, parse, search, filter |
 | [threadbase-streamer](./streamer/) | `@threadbase/streamer` — PTY management, streaming, REST server (WIP) |
