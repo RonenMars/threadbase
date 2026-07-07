@@ -2,7 +2,7 @@
 > Some statuses may be outdated. Codex support is now functional in current Threadbase components.
 > Use this document as provider research and architecture reference, not as a precise current implementation-status tracker.
 
-# Multi-Assistant Support Plan
+# Provider Research and Multi-Provider Support Notes
 
 > Written 2026-03-16. Based on research into 7 AI coding assistant tools beyond Claude Code.
 > Goal: adapt the threadbase suite (Electron, VS Code, IntelliJ, CLI) to browse, search, and resume sessions from multiple AI coding assistants.

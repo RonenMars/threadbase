@@ -1,5 +1,8 @@
 # threadbase-cli — Status & Action Items
 
+> Historical.
+> `threadbase-cli` is deprecated and no longer part of the active product surface.
+
 **Last scanned:** 2026-04-12  
 **Language:** Go 1.26 · Cobra 1.10  
 **Visibility:** Private
