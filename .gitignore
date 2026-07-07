@@ -4,3 +4,9 @@
 .claude/
 .remember/
 .worktrees/
+
+# Generated docs/export artifacts
+threadbase-root-readme-docs/
+threadbase-umbrella-root-repo-files/
+threadbase-root-readme-docs.zip
+threadbase-umbrella-root-repo-files.zip

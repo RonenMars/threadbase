@@ -16,7 +16,9 @@ This directory contains shared documentation for the root Threadbase project.
 | [`privacy-and-security.md`](privacy-and-security.md) | Local-first privacy model and security guidance |
 | [`roadmap.md`](roadmap.md) | Current status, near-term roadmap, and longer-term ideas |
 | [`contributing.md`](contributing.md) | Contribution areas and project participation guidance |
+| [`archive-policy.md`](archive-policy.md) | Rules for current docs, historical references, component docs, and generated artifacts |
 | [`marketing/article-writing-guide.md`](marketing/article-writing-guide.md) | Writing and launch-post guidance |
+| [`status/README.md`](status/README.md) | Status snapshot index and freshness warning |
 | [`status/cli.md`](status/cli.md) | Historical CLI component status (deprecated) |
 | [`status/electron.md`](status/electron.md) | Electron desktop client status |
 | [`status/intellij.md`](status/intellij.md) | IntelliJ plugin status |
