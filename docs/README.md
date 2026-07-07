@@ -15,6 +15,7 @@ This directory contains shared documentation for the root Threadbase project.
 | [`client-architecture-principles.md`](client-architecture-principles.md) | Cross-client domain → adapter → UI architecture principles |
 | [`privacy-and-security.md`](privacy-and-security.md) | Local-first privacy model and security guidance |
 | [`roadmap.md`](roadmap.md) | Current status, near-term roadmap, and longer-term ideas |
+| [`plans/claude-pr-review-rollout.md`](plans/claude-pr-review-rollout.md) | Plan for automated Claude PR reviews across selected repositories |
 | [`contributing.md`](contributing.md) | Contribution areas and project participation guidance |
 | [`archive-policy.md`](archive-policy.md) | Rules for current docs, historical references, component docs, and generated artifacts |
 | [`marketing/article-writing-guide.md`](marketing/article-writing-guide.md) | Writing and launch-post guidance |

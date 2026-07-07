@@ -19,7 +19,8 @@ Threadbase is under active development.
 - harden streamer security and connectivity,
 - clarify and expand provider support,
 - improve cross-client session experience,
-- strengthen local history search.
+- strengthen local history search,
+- roll out automated Claude PR reviews (GitHub Action, `/review` trigger) across component repos.
 
 ## Longer-term ideas
 
