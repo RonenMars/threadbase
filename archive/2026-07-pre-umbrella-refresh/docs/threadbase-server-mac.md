@@ -4,6 +4,8 @@ title: "Threadbase Streamer — Setup on a Second Mac"
 
 # Threadbase Streamer — Setup on a Second Mac
 
+> **Note (July 2026):** Steps 2–3 in the embedded prompt below reference git submodules, which the umbrella repo no longer uses. Clone [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer) and [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner) directly instead.
+
 Claude Code prompt for setting up `@threadbase/streamer` on a new Mac and exposing it via a Cloudflare tunnel.
 
 ---

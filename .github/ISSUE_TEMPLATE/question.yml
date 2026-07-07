@@ -1,0 +1,22 @@
+name: Question
+description: Ask for guidance about Threadbase usage or repo ownership
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask your question here.
+
+        For implementation behavior, use the specific component repository for the fastest answer.
+  - type: input
+    id: component
+    attributes:
+      label: Related component/repository
+      placeholder: this umbrella repo / threadbase-mobile / threadbase-streamer / etc.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true

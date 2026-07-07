@@ -1,0 +1,38 @@
+name: Bug report
+description: Report a bug in Threadbase docs/governance or route to component repo
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        If this is an implementation/runtime bug (mobile, streamer, scanner, Electron, VS Code, IntelliJ, menubar), please open the issue in that specific component repository.
+  - type: input
+    id: component
+    attributes:
+      label: Affected component/repository
+      description: Which Threadbase component is affected?
+      placeholder: threadbase-streamer / threadbase-mobile / this umbrella repo
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
