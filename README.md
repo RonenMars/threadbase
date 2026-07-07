@@ -1,236 +1,177 @@
 # Threadbase
 
-A cross-platform suite for browsing, searching, and resuming your Claude Code conversation history. Runs as a native desktop app, a VS Code extension, an IntelliJ plugin, a mobile app, and a Go CLI tool — all reading the same local JSONL files that Claude Code writes to `~/.claude/`.
+**A local-first control plane for AI coding agents.**
+
+Threadbase helps developers monitor, search, resume, and control local AI coding-agent sessions across mobile, desktop, IDEs, and local machines.
+
+It connects to coding agents running on your own machine through [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer), indexes local conversation history through [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner), and exposes that workflow through mobile, desktop, and IDE clients.
+
+This repository is the project hub for Threadbase. It does not contain the implementation source for each component. Each component lives in its own repository.
+
+> 🌐 **Website:** [threadbase.sh](https://threadbase.sh)  
+> 📲 **Mobile beta:** [threadbase.sh/betas](https://threadbase.sh/betas)  
+> 🔒 **Privacy:** [threadbase.sh/privacy](https://threadbase.sh/privacy)
 
 ---
 
-## Applications
+## What is Threadbase?
 
-| App | Platform | Repo |
-|---|---|---|
-| Electron desktop app | macOS / Windows / Linux | [threadbase-electron](https://github.com/RonenMars/threadbase-electron) |
-| VS Code extension | VS Code | [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) |
-| IntelliJ plugin | JetBrains IDEs | [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) |
-| Mobile app | iOS / Android | [threadbase-mobile](https://github.com/RonenMars/threadbase-mobile) |
-| Go CLI (`cch`) | Terminal | [threadbase-cli](https://github.com/RonenMars/threadbase-cli) *(deprecated — replaced by streamer)* |
+AI coding agents are becoming long-running, asynchronous development partners.
 
-### Shared Packages
+But the current workflow is still fragmented:
 
-| Package | Description | Status |
-|---|---|---|
-| [`@threadbase/scanner`](./scanner/) | Scan, parse, search, and filter Claude Code conversation history | v0.1.0 |
-| [`@threadbase/streamer`](./streamer/) | PTY session management, WebSocket streaming, REST API server | WIP |
-| [`@threadbase/core`](./core/) | Multi-assistant provider abstraction and typed tool results | v0.1.0 |
-| [`@threadbase/ui`](./ui/) | Shared React rendering components (tool cards, message display) | v0.1.0 |
+- sessions run in local terminals,
+- history is hard to search,
+- mobile supervision is awkward,
+- each provider has its own interface,
+- multi-agent workflows are difficult to coordinate.
 
-### Landing Page
+Threadbase provides a local-first layer for observing, controlling, searching, and eventually orchestrating those agents.
 
-- [threadbase-landing-page-v2](https://github.com/RonenMars/threadbase-landing-page-v2) — Current Next.js 15 marketing landing page
-
----
-
-## Feature Highlights
-
-All platforms share the same core: JSONL scanning, FlexSearch / Lucene full-text indexing, profile management, and conversation export. Platform-specific features build on top.
-
-### Shared Across All Platforms
-
-- Full-text search across all conversations
-- Multi-profile support (multiple `CLAUDE_CONFIG_DIR` paths)
-- Conversation export: Markdown, plain text, JSON
-- Tool result cards: Edit diffs, Bash output, Read/Write/Glob/Grep, Task agent cards
-- Sort options: recency, oldest, most messages, fewest messages, alphabetical
-- Date range filter: today, 7 days, 30 days, all time
-
-### Desktop App (threadbase-electron)
-
-- Embedded Claude Code terminal (xterm.js + node-pty, up to N concurrent instances)
-- Git worktrees panel with creation UI
-- Multi-profile dashboard with per-profile stats
-- Live chat indicators (Typing..., Awaiting Reply, Live)
-- Virtualized conversation list + conversation viewer
-- Context menus on conversation items (Copy ID, Resume in Terminal, Resume in New Window, Open Project)
-- Speed search overlay for instant list filtering
-
-### VS Code Extension
-
-- Native VS Code TreeView with live file watcher badges
-- QuickPick search command
-- Workspace-scoped conversation filtering
-- Task tool cards (TodoWrite, TodoRead, Task agent)
-
-### IntelliJ Plugin
-
-- Native Swing tree with IDE speed search
-- JCEF-powered React conversation viewer
-- In-IDE terminal resume (`Ctrl+Shift+H`)
-- Git branch badges on conversation items
-- Message-level navigation with keyboard shortcuts
-- Token and model metadata per message
-
-### Mobile App (threadbase-mobile)
-
-- Browse, search, and resume Claude Code conversations on the go
-- Full-text search across all conversations from iOS and Android
-- Conversation viewer with tool result cards
-- Syncs with the same local JSONL history via the streamer API
-
-### CLI (`cch`)
-
-- `cch list` / `cch search` / `cch show` / `cch resume`
-- `--sort`, `--since` / `--after` date filter flags
-- `--json` output for pipeline use (`cch list --json | jq ...`)
-- `cch profiles add/edit/delete/list` for profile management
-- Git branch column in list output
+The current focus is Claude Code and Codex, with an architecture designed around provider-aware session metadata and future provider expansion.
 
 ---
 
 ## Quick Start
 
-### Cloning with Submodules
+1. Install `tb-streamer` on the machine running your AI coding agents.
 
-This repo uses Git submodules for all apps and shared packages. To clone everything in one step:
+   See: [threadbase-streamer](https://github.com/RonenMars/threadbase-streamer)
 
-```bash
-git clone --recurse-submodules git@github.com:RonenMars/threadbase.git
-```
+2. Start the streamer:
 
-If you've already cloned without submodules, fetch them with:
+   ```bash
+   tb-streamer start
+   ```
 
-```bash
-git submodule update --init --recursive
-```
+3. Pair a mobile device:
 
-To pull the latest changes across all submodules:
+   ```bash
+   tb-streamer pair
+   ```
 
-```bash
-git pull --recurse-submodules
-git submodule update --remote --merge
-```
+4. Install Threadbase Mobile:
 
-### Desktop App
+   [threadbase.sh/betas](https://threadbase.sh/betas)
 
-```bash
-git clone https://github.com/RonenMars/threadbase-electron
-cd threadbase-electron
-pnpm install
-pnpm run dev         # development
-pnpm run package     # build DMG
-```
+5. Scan the QR code and start monitoring your sessions.
 
-### VS Code Extension
+For detailed setup instructions, see:
 
-```bash
-git clone https://github.com/RonenMars/threadbase-vscode
-cd threadbase-vscode
-npm install
-npm run build
-# Press F5 in VS Code to launch Extension Development Host
-```
-
-### IntelliJ Plugin
-
-```bash
-git clone https://github.com/RonenMars/threadbase-intellij
-cd threadbase-intellij
-./gradlew runIde     # launches a sandboxed IDE with the plugin loaded
-```
-
-### CLI
-
-```bash
-git clone https://github.com/RonenMars/threadbase-cli
-cd threadbase-cli
-go build -o cch ./cmd/cch
-./cch list
-./cch search "auth refresh"
-./cch list --sort messages-desc --since 7d --json | jq '.[].title'
-```
+- [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer)
+- [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile)
 
 ---
 
-## Architecture
+## How it fits together
 
-All platforms enforce the same layered boundary: **pure domain logic → platform adapter → UI**.
+```mermaid
+flowchart TD
+    Agents["Claude Code · Codex · Future Coding Agents"]
+    Streamer["threadbase-streamer<br/>Local runtime · REST API · WebSocket · QR pairing"]
+    Scanner["threadbase-scanner<br/>Local history index · Search · Metadata"]
+    Clients["Clients<br/>Mobile · Electron · VS Code · IntelliJ · Menubar"]
 
-```
-Domain (platform-agnostic)
-├── JSONL scanner + LRU cache
-├── FlexSearch / Lucene index
-├── Export formatters (MD / plain / JSON)
-├── Profile manager
-└── Filter / sort pipeline
-
-Platform Adapter
-├── Electron IPC bridge
-├── VS Code TreeDataProvider + WebviewPanel
-├── IntelliJ ProjectService + JCEF bridge
-└── Cobra commands (Go)
-
-UI
-├── React 18 (Electron renderer + VS Code webview)
-├── Swing tree + JCEF webview (IntelliJ)
-└── Text / JSON output (CLI)
+    Agents --> Streamer
+    Agents --> Scanner
+    Streamer --> Clients
+    Scanner --> Clients
 ```
 
-The TypeScript domain layer (`src/core/` in Electron and VS Code) has zero Electron and zero VS Code imports — it runs identically in both runtimes and is tested with plain Vitest. The Kotlin port in the IntelliJ plugin maintains the same domain boundary with zero IDE imports enforced by the project structure.
-
-### Tech Stack Summary
-
-| Layer | Desktop | VS Code | IntelliJ | CLI |
-|---|---|---|---|---|
-| Language | TypeScript | TypeScript | Kotlin 2.x | Go 1.26 |
-| Search | FlexSearch 0.7 | FlexSearch 0.7 | Lucene 9.x | — |
-| UI | React 18 + Tailwind | React 18 (webview) + native TreeView | Swing + React 18 (JCEF) | Text / JSON |
-| Terminal | xterm.js + node-pty | — | IntelliJ Terminal API | — |
-| Build | electron-vite | esbuild | Gradle 8.x | `go build` |
-| Tests | Vitest + Playwright | Vitest | JUnit 5 + BasePlatformTestCase | — |
+For a deeper architecture overview, see [`docs/architecture.md`](docs/architecture.md).
 
 ---
 
-## Roadmap
+## What you can use today
 
-### Milestone 2 (Planned): Multi-Assistant Support
-
-Extend all four platforms to index sessions from other AI coding tools alongside Claude Code. A provider abstraction layer will let each app scan, parse, and display sessions from any supported tool.
-
-**Planned providers (in priority order):**
-
-| Provider | Storage | Priority |
+| Component | What it does | Link |
 |---|---|---|
-| OpenAI Codex CLI | `~/.codex/sessions/**/*.jsonl` | Tier 1 |
-| Continue.dev | `~/.continue/sessions/<uuid>.json` | Tier 1 |
-| OpenCode | `~/.local/share/opencode/.../sessions.db` | Tier 2 |
-| Amazon Q Developer CLI | `~/.local/share/amazon-q/data.sqlite3` | Tier 2 |
-| Aider | `./.aider.chat.history.md` | Tier 3 |
-| Cline | VS Code globalStorage JSON | Tier 3 |
-
-See [multi-assistant-support.md](./multi-assistant-support.md) for the full provider interface design and per-app implementation plan.
+| 📱 Threadbase Mobile | Monitor live sessions, queue prompts, search history, receive push notifications, and connect to multiple streamer instances | [Mobile beta](https://threadbase.sh/betas) · [Repo](https://github.com/RonenMars/threadbase-mobile) |
+| 🖥️ Threadbase Streamer | Local runtime, REST API, WebSocket streaming, QR pairing, session control | [Repo](https://github.com/RonenMars/threadbase-streamer) |
+| 🔍 Threadbase Scanner | Local conversation indexing, search, and provider metadata | [Repo](https://github.com/RonenMars/threadbase-scanner) |
+| 🧩 Desktop and IDE clients | Electron, VS Code, IntelliJ, and menubar clients | [Repos](docs/repositories.md) |
 
 ---
 
-## Repositories
+## Repository map
 
-| Repo | Description |
+| Repository | Purpose | Status |
+|---|---|---|
+| [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer) | Local runtime, REST API, WebSocket streaming, QR pairing, session control | Active |
+| [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner) | Local conversation indexing, search, provider metadata | Active |
+| [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile) | iOS/Android client for monitoring and controlling sessions | Active beta |
+| [`threadbase-electron`](https://github.com/RonenMars/threadbase-electron) | Desktop app for browsing, searching, and interacting with sessions | Active / evolving |
+| [`threadbase-vscode`](https://github.com/RonenMars/threadbase-vscode) | VS Code extension for browsing and searching coding-agent history | Active |
+| [`threadbase-intellij`](https://github.com/RonenMars/threadbase-intellij) | JetBrains plugin for browsing and searching coding-agent history | Active |
+| [`threadbase-menubar`](https://github.com/RonenMars/threadbase-menubar) | Tray/menubar status indicator for Threadbase Streamer | Active / lightweight |
+
+For the full repository map, including shared packages, orchestration, distribution, and historical repos, see [`docs/repositories.md`](docs/repositories.md).
+
+---
+
+## Documentation
+
+| Document | Description |
 |---|---|
-| [threadbase-electron](https://github.com/RonenMars/threadbase-electron) | Electron desktop app |
-| [threadbase-vscode](https://github.com/RonenMars/threadbase-vscode) | VS Code extension |
-| [threadbase-intellij](https://github.com/RonenMars/threadbase-intellij) | IntelliJ plugin |
-| [threadbase-mobile](https://github.com/RonenMars/threadbase-mobile) | Mobile app — browse, search, and resume conversations on iOS and Android |
-| [threadbase-cli](https://github.com/RonenMars/threadbase-cli) | Go CLI (`cch`) — *deprecated, replaced by `@threadbase/streamer`* |
-| [threadbase-scanner](./scanner/) | `@threadbase/scanner` — scan, parse, search, filter |
-| [threadbase-streamer](./streamer/) | `@threadbase/streamer` — PTY management, streaming, REST server (WIP) |
-| [threadbase-landing-page-v2](https://github.com/RonenMars/threadbase-landing-page-v2) | Next.js 15 marketing landing page |
+| [`docs/README.md`](docs/README.md) | Documentation table of contents |
+| [`docs/architecture.md`](docs/architecture.md) | Architecture diagrams, core layers, runtime/history flow, and orchestration overview |
+| [`docs/repositories.md`](docs/repositories.md) | Full repository map, shared packages, experimental repos, distribution, and historical repos |
+| [`docs/concepts.md`](docs/concepts.md) | Streamer, scanner, clients, providers, and orchestration concepts |
+| [`docs/providers.md`](docs/providers.md) | Supported providers and provider-aware product guidance |
+| [`docs/provider-research.md`](docs/provider-research.md) | Historical provider research and provider abstraction notes |
+| [`docs/feature-comparison.md`](docs/feature-comparison.md) | Historical cross-client feature matrix; needs refresh |
+| [`docs/client-architecture-principles.md`](docs/client-architecture-principles.md) | Cross-client domain → adapter → UI architecture principles |
+| [`docs/privacy-and-security.md`](docs/privacy-and-security.md) | Local-first privacy model and security guidance |
+| [`docs/roadmap.md`](docs/roadmap.md) | Current status, near-term roadmap, and longer-term ideas |
+| [`docs/contributing.md`](docs/contributing.md) | Contribution areas and project participation guidance |
+| [`docs/marketing/article-writing-guide.md`](docs/marketing/article-writing-guide.md) | Writing and launch-post guidance |
+| [`docs/status/`](docs/status/) | Per-component status snapshots (historical) |
 
-## Docs
+---
 
-- [feature-comparison.md](./feature-comparison.md) — Cross-platform feature matrix
-- [multi-assistant-support.md](./multi-assistant-support.md) — Milestone 2 provider architecture plan
-- [IMPLEMENTATION-GUIDELINES.md](./IMPLEMENTATION-GUIDELINES.md) — Developer workflow reference
-- [docs/article-writing-guide.md](./docs/article-writing-guide.md) — Guide for writing about Threadbase
+## Project focus
+
+Threadbase focuses on:
+
+- local-first developer control,
+- searchable coding-agent history,
+- lightweight streamer-based session access,
+- mobile and IDE clients,
+- provider-aware architecture,
+- future durable multi-agent orchestration.
+
+It is intentionally built as an open-source ecosystem rather than a single closed app.
+
+---
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+For implementation-specific issues, please prefer the relevant component repository.
+
+---
+
+## Security
+
+See [`SECURITY.md`](SECURITY.md).
+
+Threadbase controls local AI coding-agent sessions, so security issues should be reported privately.
 
 ---
 
 ## License
 
-MIT — not affiliated with Anthropic. Claude Code is a product of Anthropic.
+Threadbase source code is licensed under MIT unless otherwise noted.
+
+See [`LICENSE`](LICENSE) and the `LICENSE` file in each component repository.
+
+---
+
+## Trademark
+
+Threadbase is a trademark of Ronen Mars.
+
+The MIT license applies to the source code, but it does not grant permission to use the Threadbase name or logo to market derivative projects, hosted services, or commercial products without permission.
+
+See [`TRADEMARK.md`](TRADEMARK.md).

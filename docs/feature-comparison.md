@@ -1,3 +1,7 @@
+> Historical / needs refresh.
+> This comparison predates the current Threadbase Streamer + Mobile + Codex direction.
+> It is kept as useful reference material, not as the authoritative current feature matrix.
+
 # Threadbase Feature Comparison
 
 > Generated 2026-03-16. Compares the 4 functional apps across all feature categories.

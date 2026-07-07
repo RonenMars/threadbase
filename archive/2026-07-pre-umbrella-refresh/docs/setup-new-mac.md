@@ -1,5 +1,7 @@
 # Threadbase — New Mac Setup Prompt
 
+> **Note (July 2026):** This prompt is outdated. The umbrella repo no longer uses git submodules. Clone each component repository directly — see [`repositories.md`](repositories.md).
+
 Copy the prompt below and paste it into a Claude Code session on the target Mac.
 
 ---
