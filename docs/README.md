@@ -17,6 +17,7 @@ This directory contains shared documentation for the root Threadbase project.
 | [`roadmap.md`](roadmap.md) | Current status, near-term roadmap, and longer-term ideas |
 | [`plans/claude-pr-review-rollout.md`](plans/claude-pr-review-rollout.md) | Plan for automated Claude PR reviews across selected repositories |
 | [`contributing.md`](contributing.md) | Contribution areas and project participation guidance |
+| [`issue-tracker.md`](issue-tracker.md) | Canonical issue labels and format, shared by every component repo |
 | [`archive-policy.md`](archive-policy.md) | Rules for current docs, historical references, component docs, and generated artifacts |
 | [`marketing/article-writing-guide.md`](marketing/article-writing-guide.md) | Writing and launch-post guidance |
 | [`status/README.md`](status/README.md) | Status snapshot index and freshness warning |
