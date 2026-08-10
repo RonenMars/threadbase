@@ -24,6 +24,8 @@ For implementation changes, please open issues or pull requests in the relevant 
 
 Each component repository has its own README and roadmap. Work inside the specific component repo for implementation changes.
 
+**Issue labels and format are shared across every component repo** and defined once in [`docs/issue-tracker.md`](docs/issue-tracker.md). If you are filing or triaging as a maintainer, read that first. If you are reporting a bug as a user, the issue templates will guide you and a maintainer will apply the labels.
+
 ---
 
 ## Before opening a pull request
