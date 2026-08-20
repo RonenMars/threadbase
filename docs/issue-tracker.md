@@ -76,6 +76,13 @@ Zero or more. Where the work lands. Useful for filtering, never for priority.
 
 These get confused. `native` is about *code that compiles*; `platform` is about *the OS behaving differently*. A `better-sqlite3` ABI mismatch is `native`. Task Scheduler not redirecting stdout is `platform`. An issue can be both — a Windows-only `node-pty` build failure is `native` + `platform`.
 
+## Triage state
+
+Priority, type and area say *what an issue is*.
+A separate, additive set of labels says *what happens to it next* — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`.
+
+Those are canonical in [`triage-labels.md`](./triage-labels.md), and applying one never means removing a priority, type or area.
+
 ## Body
 
 Lead with what is wrong, in one or two sentences, with no heading. Then use whichever sections below carry real content, and omit the rest. **Do not pad an issue to fit the template.**

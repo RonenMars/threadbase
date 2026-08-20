@@ -18,6 +18,8 @@ This directory contains shared documentation for the root Threadbase project.
 | [`plans/claude-pr-review-rollout.md`](plans/claude-pr-review-rollout.md) | Plan for automated Claude PR reviews across selected repositories |
 | [`contributing.md`](contributing.md) | Contribution areas and project participation guidance |
 | [`issue-tracker.md`](issue-tracker.md) | Canonical issue labels and format, shared by every component repo |
+| [`triage-labels.md`](triage-labels.md) | Canonical triage-state labels, additive to the issue taxonomy |
+| [`integration-branch-lifecycle.md`](integration-branch-lifecycle.md) | When an integration branch is deleted, and the audit that makes deleting it safe |
 | [`archive-policy.md`](archive-policy.md) | Rules for current docs, historical references, component docs, and generated artifacts |
 | [`marketing/article-writing-guide.md`](marketing/article-writing-guide.md) | Writing and launch-post guidance |
 | [`status/README.md`](status/README.md) | Status snapshot index and freshness warning |
