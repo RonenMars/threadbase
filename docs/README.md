@@ -27,6 +27,7 @@ This directory contains shared documentation for the root Threadbase project.
 | [`status/electron.md`](status/electron.md) | Electron desktop client status |
 | [`status/intellij.md`](status/intellij.md) | IntelliJ plugin status |
 | [`status/mobile.md`](status/mobile.md) | Mobile client status |
+| [`status/streamer.md`](status/streamer.md) | Streamer status and recent changes |
 | [`status/vscode.md`](status/vscode.md) | VS Code extension status |
 
 ## Root-level project files
