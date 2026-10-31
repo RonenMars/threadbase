@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/readme-hero.webp" alt="An empty desk at dusk: a phone paired by QR code to a laptop running a coding agent, with padlocks on the encrypted link between them" width="720">
+  <img src="docs/assets/readme-hero.webp" alt="An empty desk at dusk with a coding agent still running on the screens; a glowing thread carries session cards out of the window, through a padlock, across a lake to a developer holding a phone on a dock" width="720">
 </p>
 
 <h1 align="center">Threadbase</h1>
