@@ -20,9 +20,9 @@
 
 <p align="center">
   <img alt="iOS TestFlight beta" src="https://img.shields.io/badge/iOS-TestFlight_beta-black">
-  <img alt="Android closed testing" src="https://img.shields.io/badge/Android-closed_testing-black">
-  <img alt="Streamer for macOS, Linux and Windows" src="https://img.shields.io/badge/streamer-macOS_·_Linux_·_Windows-black">
-  <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-black">
+  <img alt="Android closed testing" src="https://img.shields.io/badge/Android-closed_testing-3DDC84">
+  <img alt="Streamer for macOS, Linux and Windows" src="https://img.shields.io/badge/streamer-macOS_·_Linux_·_Windows-0A84FF">
+  <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-0EA5E9">
 </p>
 
 ## Why
