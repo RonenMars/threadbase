@@ -15,6 +15,7 @@ This is an **umbrella repository**, not an implementation monorepo. Component ap
 - [`threadbase-vscode`](https://github.com/RonenMars/threadbase-vscode) — VS Code extension
 - [`threadbase-intellij`](https://github.com/RonenMars/threadbase-intellij) — IntelliJ/JetBrains plugin (Kotlin)
 - [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile) — Mobile app
+- [`threadbase-website`](https://github.com/RonenMars/threadbase-website) — threadbase.sh website (landing page, docs, privacy policy)
 
 ### Shared Packages
 - [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner) — `@threadbase/scanner` — scan, parse, search, filter JSONL conversations
