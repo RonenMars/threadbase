@@ -19,11 +19,13 @@
 </p>
 
 <p align="center">
-  <a href="https://threadbase.sh/betas"><img alt="iOS: TestFlight beta" src="https://img.shields.io/badge/iOS-TestFlight_beta-black?logo=apple"></a>
-  <a href="https://threadbase.sh/betas"><img alt="Android: closed testing" src="https://img.shields.io/badge/Android-closed_testing-3DDC84?logo=android&logoColor=white"></a>
-  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&label=streamer&color=CB3837"></a>
-  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer installs per month" src="https://img.shields.io/npm/dm/%40threadbase-sh%2Fstreamer?label=installs%2Fmonth&color=CB3837"></a>
-  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?color=0EA5E9"></a>
+  <a href="https://threadbase.sh/betas"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/badge-ios-dark.svg"><img alt="iOS: beta on TestFlight" src="docs/assets/badge-ios-light.svg" width="176" height="48"></picture></a>&nbsp;&nbsp;
+  <a href="https://threadbase.sh/betas"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/badge-android-dark.svg"><img alt="Android: closed testing on Google Play" src="docs/assets/badge-android-light.svg" width="176" height="48"></picture></a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&logoColor=white&label=streamer&labelColor=0f1620&color=1f2d3d"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?labelColor=0f1620&color=1f2d3d"></a>
 </p>
 
 ## Why
