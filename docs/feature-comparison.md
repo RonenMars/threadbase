@@ -5,7 +5,7 @@
 # Threadbase Feature Comparison
 
 > Generated 2026-03-16. Compares the 4 functional apps across all feature categories.
-> Landing pages (`claude-history-landing-page-nextjs`, `threadbase-landing-codex`) excluded — marketing sites only.
+> Landing pages (`claude-history-landing-page-nextjs`, `threadbase-landing-codex`, now `threadbase-website`) excluded — marketing sites only.
 
 | Feature | Electron (`claude-search`) | VS Code Ext | IntelliJ Plugin | CLI (`cch`) |
 |---|:---:|:---:|:---:|:---:|

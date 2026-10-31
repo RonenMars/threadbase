@@ -15,6 +15,7 @@ This document maps the main `threadbase-*` repositories and explains how they fi
 | [`threadbase-vscode`](https://github.com/RonenMars/threadbase-vscode) | VS Code extension for browsing and searching coding-agent history | Active |
 | [`threadbase-intellij`](https://github.com/RonenMars/threadbase-intellij) | JetBrains plugin for browsing and searching coding-agent history | Active |
 | [`threadbase-menubar`](https://github.com/RonenMars/threadbase-menubar) | Tray/menubar status indicator for Threadbase Streamer | Active / lightweight |
+| [`threadbase-website`](https://github.com/RonenMars/threadbase-website) | [threadbase.sh](https://threadbase.sh): landing page, docs, privacy policy | Active |
 
 ## Shared packages
 
