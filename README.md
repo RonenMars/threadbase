@@ -24,8 +24,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&logoColor=white&label=streamer&labelColor=0f1620&color=1f2d3d"></a>
-  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?labelColor=0f1620&color=1f2d3d"></a>
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&logoColor=white&label=streamer&labelColor=0f1620&color=CB3837"></a>
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer downloads per month" src="https://img.shields.io/npm/dm/%40threadbase-sh%2Fstreamer?label=downloads&labelColor=0f1620&color=CB3837"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?labelColor=0f1620&color=63b3ff"></a>
 </p>
 
 ## Why
