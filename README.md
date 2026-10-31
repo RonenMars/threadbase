@@ -1,178 +1,81 @@
-# Threadbase
+<p align="center">
+  <img src="docs/assets/readme-hero.webp" alt="An empty desk at dusk with a coding agent still running on the screens; a glowing thread carries session cards out of the window, through a padlock, across a lake to a developer holding a phone on a dock" width="720">
+</p>
 
-**A local-first control plane for AI coding agents.**
+<h1 align="center">Threadbase</h1>
 
-Threadbase helps developers monitor, search, resume, and control local AI coding-agent sessions across mobile, desktop, IDEs, and local machines.
+<p align="center"><strong>Leave the desk. Keep the agent working.</strong></p>
 
-It connects to coding agents running on your own machine through [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer), indexes local conversation history through [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner), and exposes that workflow through mobile, desktop, and IDE clients.
+<p align="center">
+  Claude Code, Codex and GitHub Copilot run on your machine.<br>
+  Threadbase puts them on your phone: see what the agent is doing, answer when it asks, queue the next prompt.<br>
+  End-to-end encrypted between your phone and your machines. Threadbase can't read your sessions.
+</p>
 
-This repository is the project hub for Threadbase. It does not contain the implementation source for each component. Each component lives in its own repository.
+<p align="center">
+  <a href="https://threadbase.sh/betas"><strong>Get the app</strong></a> ·
+  <a href="https://threadbase.sh/docs">Docs</a> ·
+  <a href="https://threadbase.sh">threadbase.sh</a>
+</p>
 
-> 🌐 **Website:** [threadbase.sh](https://threadbase.sh)  
-> 📲 **Mobile beta:** [threadbase.sh/betas](https://threadbase.sh/betas)  
-> 🔒 **Privacy:** [threadbase.sh/privacy](https://threadbase.sh/privacy)
+<p align="center">
+  <a href="https://threadbase.sh/betas"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/badge-ios-dark.svg"><img alt="iOS: beta on TestFlight" src="docs/assets/badge-ios-light.svg" width="176" height="48"></picture></a>&nbsp;&nbsp;
+  <a href="https://threadbase.sh/betas"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/badge-android-dark.svg"><img alt="Android: closed testing on Google Play" src="docs/assets/badge-android-light.svg" width="176" height="48"></picture></a>
+</p>
 
----
+<p align="center">
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&logoColor=white&label=streamer&labelColor=0f1620&color=CB3837"></a>
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer downloads per month" src="https://img.shields.io/npm/dm/%40threadbase-sh%2Fstreamer?label=downloads&labelColor=0f1620&color=CB3837"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?labelColor=0f1620&color=63b3ff"></a>
+</p>
 
-## What is Threadbase?
+## Why
 
-AI coding agents are becoming long-running, asynchronous development partners.
+You start a long agent run. Twenty minutes in, it stops: *"Allow this edit?"* You find out an hour later, back at the desk.
 
-But the current workflow is still fragmented:
+Agents work asynchronously. Your terminal does not.
 
-- sessions run in local terminals,
-- history is hard to search,
-- mobile supervision is awkward,
-- each provider has its own interface,
-- multi-agent workflows are difficult to coordinate.
+## What you get
 
-Threadbase provides a local-first layer for observing, controlling, searching, and eventually orchestrating those agents.
+1. **A push the moment the agent needs you.** No stream to babysit.
+2. **Approvals and questions as cards.** Tap the answer on your phone. The agent keeps going.
+3. **A prompt queue.** Type or dictate the next three prompts while it works. It picks them up in order.
+4. **Start or take over from anywhere.** Launch a session on any paired machine, or adopt one you started in your terminal.
+5. **Search across every session on every machine.** Find the conversation where the agent explained that migration.
 
-The current focus is Claude Code and Codex, with an architecture designed around provider-aware session metadata and future provider expansion.
+## Get started in a minute
 
----
-
-## Quick Start
-
-1. Install `tb-streamer` on the machine running your AI coding agents.
-
-   See: [threadbase-streamer](https://github.com/RonenMars/threadbase-streamer)
-
-2. Start the streamer:
-
-   ```bash
-   tb-streamer start
-   ```
-
-3. Pair a mobile device:
-
-   ```bash
-   tb-streamer pair
-   ```
-
-4. Install Threadbase Mobile:
-
-   [threadbase.sh/betas](https://threadbase.sh/betas)
-
-5. Scan the QR code and start monitoring your sessions.
-
-For detailed setup instructions, see:
-
-- [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer)
-- [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile)
-
----
-
-## How it fits together
-
-```mermaid
-flowchart TD
-    Agents["Claude Code · Codex · Future Coding Agents"]
-    Streamer["threadbase-streamer<br/>Local runtime · REST API · WebSocket · QR pairing"]
-    Scanner["threadbase-scanner<br/>Local history index · Search · Metadata"]
-    Clients["Clients<br/>Mobile · Electron · VS Code · IntelliJ · Menubar"]
-
-    Agents --> Streamer
-    Agents --> Scanner
-    Streamer --> Clients
-    Scanner --> Clients
+```bash
+npm install -g @threadbase-sh/streamer   # or: brew tap RonenMars/threadbase && brew install tb-streamer
+tb-streamer serve                        # then open the app, tap Pair, scan the QR
 ```
 
-For a deeper architecture overview, see [`docs/architecture.md`](docs/architecture.md).
+Get the app at [threadbase.sh/betas](https://threadbase.sh/betas). Full setup, Linux and Windows notes: [threadbase.sh/docs](https://threadbase.sh/docs).
 
----
+## Your sessions stay yours
 
-## What you can use today
+By default the phone talks straight to the streamer on your machine. No Threadbase server in between, no analytics.
+Traffic is end-to-end encrypted with per-device credentials you can revoke at any time, and all of it is open source under MIT.
 
-| Component | What it does | Link |
+Beta, honestly: iOS ships through TestFlight and Android through closed testing, reaching your streamer from outside your network is on you, and multi-select prompts still fall back to the terminal.
+Details: [threadbase.sh/privacy](https://threadbase.sh/privacy) · [`docs/privacy-and-security.md`](docs/privacy-and-security.md)
+
+## The pieces
+
+This repository is the project hub. The code lives in the component repos.
+
+| | Repository | What it is |
 |---|---|---|
-| 📱 Threadbase Mobile | Monitor live sessions, queue prompts, search history, receive push notifications, and connect to multiple streamer instances | [Mobile beta](https://threadbase.sh/betas) · [Repo](https://github.com/RonenMars/threadbase-mobile) |
-| 🖥️ Threadbase Streamer | Local runtime, REST API, WebSocket streaming, QR pairing, session control | [Repo](https://github.com/RonenMars/threadbase-streamer) |
-| 🔍 Threadbase Scanner | Local conversation indexing, search, and provider metadata | [Repo](https://github.com/RonenMars/threadbase-scanner) |
-| 🧩 Desktop and IDE clients | Electron, VS Code, IntelliJ, and menubar clients | [Repos](docs/repositories.md) |
+| 📱 | [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile) | The iOS and Android app |
+| 🖥️ | [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer) | The local runtime you install next to your agents |
+| 🔍 | [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner) | Local indexing and search of your session history |
+| 🌐 | [`threadbase-website`](https://github.com/RonenMars/threadbase-website) | threadbase.sh, docs and privacy policy |
+| 🧩 | [Desktop and IDE clients](docs/repositories.md) | Electron, VS Code, IntelliJ and menubar |
+
+Architecture, roadmap and the full repository map: [`docs/`](docs/README.md). Contributions: [`CONTRIBUTING.md`](CONTRIBUTING.md). Security issues, privately: [`SECURITY.md`](SECURITY.md).
 
 ---
 
-## Repository map
-
-| Repository | Purpose | Status |
-|---|---|---|
-| [`threadbase-streamer`](https://github.com/RonenMars/threadbase-streamer) | Local runtime, REST API, WebSocket streaming, QR pairing, session control | Active |
-| [`threadbase-scanner`](https://github.com/RonenMars/threadbase-scanner) | Local conversation indexing, search, provider metadata | Active |
-| [`threadbase-mobile`](https://github.com/RonenMars/threadbase-mobile) | iOS/Android client for monitoring and controlling sessions | Active beta |
-| [`threadbase-electron`](https://github.com/RonenMars/threadbase-electron) | Desktop app for browsing, searching, and interacting with sessions | Active / evolving |
-| [`threadbase-vscode`](https://github.com/RonenMars/threadbase-vscode) | VS Code extension for browsing and searching coding-agent history | Active |
-| [`threadbase-intellij`](https://github.com/RonenMars/threadbase-intellij) | JetBrains plugin for browsing and searching coding-agent history | Active |
-| [`threadbase-menubar`](https://github.com/RonenMars/threadbase-menubar) | Tray/menubar status indicator for Threadbase Streamer | Active / lightweight |
-| [`threadbase-website`](https://github.com/RonenMars/threadbase-website) | [threadbase.sh](https://threadbase.sh): landing page, docs, privacy policy | Active |
-
-For the full repository map, including shared packages, orchestration, distribution, and historical repos, see [`docs/repositories.md`](docs/repositories.md).
-
----
-
-## Documentation
-
-| Document | Description |
-|---|---|
-| [`docs/README.md`](docs/README.md) | Documentation table of contents |
-| [`docs/architecture.md`](docs/architecture.md) | Architecture diagrams, core layers, runtime/history flow, and orchestration overview |
-| [`docs/repositories.md`](docs/repositories.md) | Full repository map, shared packages, experimental repos, distribution, and historical repos |
-| [`docs/concepts.md`](docs/concepts.md) | Streamer, scanner, clients, providers, and orchestration concepts |
-| [`docs/providers.md`](docs/providers.md) | Supported providers and provider-aware product guidance |
-| [`docs/provider-research.md`](docs/provider-research.md) | Historical provider research and provider abstraction notes |
-| [`docs/feature-comparison.md`](docs/feature-comparison.md) | Historical cross-client feature matrix; needs refresh |
-| [`docs/client-architecture-principles.md`](docs/client-architecture-principles.md) | Cross-client domain → adapter → UI architecture principles |
-| [`docs/privacy-and-security.md`](docs/privacy-and-security.md) | Local-first privacy model and security guidance |
-| [`docs/roadmap.md`](docs/roadmap.md) | Current status, near-term roadmap, and longer-term ideas |
-| [`docs/contributing.md`](docs/contributing.md) | Contribution areas and project participation guidance |
-| [`docs/marketing/article-writing-guide.md`](docs/marketing/article-writing-guide.md) | Writing and launch-post guidance |
-| [`docs/status/`](docs/status/) | Per-component status snapshots (historical) |
-
----
-
-## Project focus
-
-Threadbase focuses on:
-
-- local-first developer control,
-- searchable coding-agent history,
-- lightweight streamer-based session access,
-- mobile and IDE clients,
-- provider-aware architecture,
-- future durable multi-agent orchestration.
-
-It is intentionally built as an open-source ecosystem rather than a single closed app.
-
----
-
-## Contributing
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md).
-
-For implementation-specific issues, please prefer the relevant component repository.
-
----
-
-## Security
-
-See [`SECURITY.md`](SECURITY.md).
-
-Threadbase controls local AI coding-agent sessions, so security issues should be reported privately.
-
----
-
-## License
-
-Threadbase source code is licensed under MIT unless otherwise noted.
-
-See [`LICENSE`](LICENSE) and the `LICENSE` file in each component repository.
-
----
-
-## Trademark
-
-Threadbase is a trademark of Ronen Mars.
-
-The MIT license applies to the source code, but it does not grant permission to use the Threadbase name or logo to market derivative projects, hosted services, or commercial products without permission.
-
-See [`TRADEMARK.md`](TRADEMARK.md).
+<p align="center">
+  MIT licensed. Threadbase is a trademark of Ronen Mars, see <a href="TRADEMARK.md">TRADEMARK.md</a>.
+</p>
