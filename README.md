@@ -19,10 +19,11 @@
 </p>
 
 <p align="center">
-  <img alt="iOS TestFlight beta" src="https://img.shields.io/badge/iOS-TestFlight_beta-black">
-  <img alt="Android closed testing" src="https://img.shields.io/badge/Android-closed_testing-3DDC84">
-  <img alt="Streamer for macOS, Linux and Windows" src="https://img.shields.io/badge/streamer-macOS_·_Linux_·_Windows-0A84FF">
-  <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-0EA5E9">
+  <a href="https://threadbase.sh/betas"><img alt="iOS: TestFlight beta" src="https://img.shields.io/badge/iOS-TestFlight_beta-black?logo=apple"></a>
+  <a href="https://threadbase.sh/betas"><img alt="Android: closed testing" src="https://img.shields.io/badge/Android-closed_testing-3DDC84?logo=android&logoColor=white"></a>
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer version on npm" src="https://img.shields.io/npm/v/%40threadbase-sh%2Fstreamer?logo=npm&label=streamer&color=CB3837"></a>
+  <a href="https://www.npmjs.com/package/@threadbase-sh/streamer"><img alt="streamer installs per month" src="https://img.shields.io/npm/dm/%40threadbase-sh%2Fstreamer?label=installs%2Fmonth&color=CB3837"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/RonenMars/threadbase?color=0EA5E9"></a>
 </p>
 
 ## Why
