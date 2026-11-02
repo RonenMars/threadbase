@@ -74,6 +74,33 @@ This repository is the project hub. The code lives in the component repos.
 
 Architecture, roadmap and the full repository map: [`docs/`](docs/README.md). Contributions: [`CONTRIBUTING.md`](CONTRIBUTING.md). Security issues, privately: [`SECURITY.md`](SECURITY.md).
 
+## Shared agent skills
+
+The skills that more than one Threadbase repository needs live here, in the `threadbase-skills` plugin: `add-provider` and `integration-by-batches`.
+They hold only the repo-neutral rules. Repo-specific paths, scripts and steps stay in each repo's own thin skill.
+
+Install once per machine:
+
+```
+/plugin marketplace add RonenMars/threadbase
+/plugin install threadbase-skills@threadbase
+```
+
+Then call them as `threadbase-skills:add-provider` and `threadbase-skills:integration-by-batches`. `/plugin update` picks up changes.
+
+Codex and Cursor do not read Claude Code plugins, so a sibling repo mirrors the skills into `.agents/skills/` and checks the mirror for drift:
+
+```bash
+scripts/sync-agents-skills.sh .agents/skills   # copy the skills, print their content hash
+scripts/sync-agents-skills.sh --hash           # hash of the canonical skills
+scripts/sync-agents-skills.sh --hash .agents/skills   # hash of the mirror; CI fails if the two differ
+[ "$(scripts/sync-agents-skills.sh --hash)" = "$(scripts/sync-agents-skills.sh --hash)" ] && echo stable   # self-check
+```
+
+In a sibling repo's CI, check out this repo at a pinned ref and compare the two `--hash` outputs.
+The hash covers only the skills named here, so a sibling's local skills in `.agents/skills/` do not affect it.
+A local skill must not reuse a shared skill's name in the same directory; the mirror overwrites it.
+
 ---
 
 <p align="center">

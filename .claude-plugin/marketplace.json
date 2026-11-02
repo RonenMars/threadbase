@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "threadbase",
+  "description": "Agent skills shared by the Threadbase repositories.",
+  "owner": {
+    "name": "Ronen Mars",
+    "url": "https://github.com/RonenMars"
+  },
+  "plugins": [
+    {
+      "name": "threadbase-skills",
+      "source": "./plugins/threadbase-skills",
+      "description": "Repo-neutral skills shared by the Threadbase repositories: add-provider and integration-by-batches.",
+      "category": "development"
+    }
+  ]
+}

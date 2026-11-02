@@ -1,0 +1,9 @@
+{
+  "name": "threadbase-skills",
+  "description": "Repo-neutral skills shared by the Threadbase repositories: add-provider and integration-by-batches.",
+  "author": {
+    "name": "Ronen Mars",
+    "url": "https://github.com/RonenMars"
+  },
+  "license": "MIT"
+}
