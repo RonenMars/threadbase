@@ -101,6 +101,9 @@ In a sibling repo's CI, check out this repo at a pinned ref and compare the two 
 The hash covers only the skills named here, so a sibling's local skills in `.agents/skills/` do not affect it.
 A local skill must not reuse a shared skill's name in the same directory; the mirror overwrites it.
 
+`integration-by-batches` ships `land-pr.sh`, the landing loop its Step 7 runs; the mirror carries it with the skill.
+After changing it, run `bash scripts/test-land-pr.sh`: a stub `gh` and a throwaway origin drive every guard, with nothing sent to GitHub.
+
 ---
 
 <p align="center">
