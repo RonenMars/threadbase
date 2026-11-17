@@ -18,7 +18,7 @@ Each repo's own `integration-by-batches` skill holds its QA targets, build and g
 3. **Never combine unrelated PRs to lower the batch count.** A batch is a unit of attribution.
 4. **Never decide a product question silently.** Conflicts that are an either/or about behaviour (J-calls) stop the run and are put to the user with the options.
 5. **The integration *branch* never reaches `origin`.** Push nothing unless QA needs an origin ref, and then only an annotated **test tag**, never the branch. Prove it before every report: `git ls-remote --heads origin "integration/*" | wc -l` → `0`.
-6. **Never commit the plan or the log.** They are working notes. Keep them outside any repo.
+6. **Never commit the plan, the log, the summary or `HANDOFF.md`.** They are working notes and live in the run directory `~/dev/ai-tools/tb-PRs-follow/integrations/<YYYY-MM-DD_HH-MM>/`, outside every repo and worktree (see Step 2).
 7. **Preserve each PR's own history.** Land PRs individually; the batch branch is a test artifact only.
 8. **Evidence over assumption.** Repo, CI and test output decide. Say "not verified" when it is not.
 9. **Approval is a record, not a reading.** "QA passed", "land it" and "push" are three separate signals; each is the user's answer to its own question. A batch lands only after its `qa_verdict` line is in the log (Step 5), and `land-pr.sh` refuses without it.
@@ -36,7 +36,7 @@ gh pr list --state open --json number,title,headRefName,baseRefName,isDraft,head
 - **Read the counterpart repo's open PRs too.** A cross-repo dependency is often declared on *one* side ("Land this streamer PR first"). Pair across repos by the **endpoint or field actually called**, never by feature name.
 - Capture each PR's file set: `gh pr diff <n> --name-only`. Overlaps drive the grouping.
 - **Re-scan before acting.** A plan older than a day is a hypothesis; `main` moves and the open-PR count changes.
-- **Read the plans and logs already in the plan directory first.** An earlier run may own batches, worktrees or a verdict for some of these PRs; continue it, or say why it is superseded.
+- **Read the earlier run directories first** (`ls ~/dev/ai-tools/tb-PRs-follow/integrations/`, newest last): plan, log and `HANDOFF.md` of each. An earlier run may own batches, worktrees or a verdict for some of these PRs; continue it in its own directory, or say why it is superseded.
 - **Build the cross-repo pairing table before grouping,** not after the user asks for it: counterpart PR, the call that links them, which side lands first.
 
 ## Step 1 — Group
@@ -59,11 +59,20 @@ Group by **subsystem + shared files**, then check each group against four questi
 
 ## Step 2 — Write the plan, then wait
 
-Write `<date>-batched-qa-plan.md` **outside any repo** with: the PR table (PR, title, subsystem, key files), the overlap list, the ordering constraints, one block per batch (**goal · PRs in order · why together · order rationale · QA scenarios · risks**), the execution table (batch, PRs, QA deploy?, cross-repo dependency, blocking?), and the stop-and-ask list. Open with the decisions the user must answer (drafts, QA target), a legend for every abbreviation the plan uses, and the batch table first. **Each QA scenario names the PR and the changed file it exercises**; a scenario with no line in the diff behind it is invented, so cut it. **Send it and stop.** A local rehearsal is neither a deploy nor a merge and may start early; the deploy may not.
+Create the **run directory** once, before the first write, and record its absolute path at the top of every file in it:
 
-Keep a second file, the **engineering log** (`<date>-batched-qa-log.md`): §1 artifacts (every worktree, branch, ref, tag, with created/removed), §2 baseline, §3 scope, §4 order/constraints, §5 timestamped actions, §6 per-PR records (head before → rebased to → tip after), §7 conflicts (M mechanical / J judgment), §8 sweeps, §9 obstacles & numbered findings, §10 checkpoints, §11 decisions (who, why). Append after every action; obstacles are the first thing memory loses. Concise facts, no chain-of-thought.
+```bash
+RUN_DIR=~/dev/ai-tools/tb-PRs-follow/integrations/$(date +%Y-%m-%d_%H-%M)   # run start, local time
+mkdir -p "$RUN_DIR"
+```
 
-Create the log and a `HANDOFF.md` (goal, current step, next exact command) **before the first build command**, not after the first compaction. A batch run spans days and several context resets; the files are the only state that survives them.
+Everything this run writes goes there: the plan, the engineering log, the final summary and `HANDOFF.md`. A run that continues in a new session, or a later batch of the same run, reuses its directory; only a new run gets a new timestamp. The directory sits outside every git repo on purpose, so none of it can be staged.
+
+Write `<date>-batched-qa-plan.md` in `$RUN_DIR` with: the PR table (PR, title, subsystem, key files), the overlap list, the ordering constraints, one block per batch (**goal · PRs in order · why together · order rationale · QA scenarios · risks**), the execution table (batch, PRs, QA deploy?, cross-repo dependency, blocking?), and the stop-and-ask list. Open with the decisions the user must answer (drafts, QA target), a legend for every abbreviation the plan uses, and the batch table first. **Each QA scenario names the PR and the changed file it exercises**; a scenario with no line in the diff behind it is invented, so cut it. **Send it and stop.** A local rehearsal is neither a deploy nor a merge and may start early; the deploy may not.
+
+Keep a second file in `$RUN_DIR`, the **engineering log** (`<date>-batched-qa-log.md`): §1 artifacts (every worktree, branch, ref, tag, with created/removed), §2 baseline, §3 scope, §4 order/constraints, §5 timestamped actions, §6 per-PR records (head before → rebased to → tip after), §7 conflicts (M mechanical / J judgment), §8 sweeps, §9 obstacles & numbered findings, §10 checkpoints, §11 decisions (who, why). Append after every action; obstacles are the first thing memory loses. Concise facts, no chain-of-thought.
+
+Create the log and `$RUN_DIR/HANDOFF.md` (opened by a `## Kick-off` section, then goal, current step, next exact command) **before the first build command**, not after the first compaction. At the end of the run write the **summary** (`<date>-batched-qa-summary.md`) there too: batches and PRs in the order merged, how each conflict was resolved, what was and was not verified. A batch run spans days and several context resets; the files are the only state that survives them.
 
 ## Step 3 — Build the batch (local)
 
@@ -150,7 +159,7 @@ Re-fetch `main`, **re-scan open PRs in both repos**, re-validate the next batch'
 
 ## Step 9 — Cleanup (list first, approval, then delete)
 
-Cleanup closes every session that built anything, including one that landed nothing or stopped mid-batch. Inventory from log §1 + `git worktree list`: worktrees, local integration/scratch branches, `refs/integration/pr/*`, test tags (local and remote), untracked docs (ask). Exclude any worktree with uncommitted or unpushed work and any this run did not create. `git worktree remove` (never `rm -rf`), `git branch -D` only for approved branches, `git update-ref -d`, `git worktree prune`. Verify `git ls-remote --heads origin "integration/*"` → `0`, and that no QA target is left running an integration build.
+Cleanup closes every session that built anything, including one that landed nothing or stopped mid-batch. Inventory from log §1 + `git worktree list`: worktrees, local integration/scratch branches, `refs/integration/pr/*`, test tags (local and remote). The run directory is never cleaned up (keep by default; delete only if the user asks). Exclude any worktree with uncommitted or unpushed work and any this run did not create. `git worktree remove` (never `rm -rf`), `git branch -D` only for approved branches, `git update-ref -d`, `git worktree prune`. Verify `git ls-remote --heads origin "integration/*"` → `0`, and that no QA target is left running an integration build.
 
 ## Traps that recurred
 
